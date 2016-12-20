@@ -1,6 +1,6 @@
 {
   "name": "mathjax-node-sre",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Extend mathjax-node using speechruleengine",
   "main": "./lib/main.js",
   "scripts": {
