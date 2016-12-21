@@ -6,7 +6,7 @@
   "scripts": {
     "test": "tape test/*.js"
   },
-  "bin" : { "mjpage" : "./bin/mjsre.js" },
+  "bin" : { "mjsre" : "./bin/mjsre.js" },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mathjax/mathjax-node-page.git"

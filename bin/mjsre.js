@@ -1,4 +1,5 @@
 #! /usr/bin/env node
+
 /************************************************************************
  *  Copyright (c) 2016 The MathJax Consortium
  *
@@ -15,82 +16,114 @@
  *  limitations under the License.
  */
 
-var mjpage = require('../lib/main.js').mjpage;
-var fs = require('fs');
-var jsdom = require('jsdom').jsdom;
+const mj = require('../lib/main.js');
+const fs = require('fs');
+const jsdom = require('jsdom').jsdom;
 
-var argv = require("yargs")
-  .strict()
-  .usage("Usage: mjsre.js [options] '<INPUT>'",{
-    speech: {
-      boolean: true,
-      describe: "include speech text"
-    },
-    speechrules: {
-      default: "mathspeak",
-      describe: "ruleset to use for speech text (chromevox or mathspeak)"
-    },
-    speechstyle: {
-      default: "default",
-      describe: "style to use for speech text (default, brief, sbrief)"
-    },
-    linebreaks: {
-      boolean: true,
-      describe: "perform automatic line-breaking"
-    },
-    format: {
-      default: "AsciiMath,TeX,MathML",
-      describe: "input format(s) to look for"
-    },
-    output: {
-      default: "SVG",
-      describe: "output format (SVG, CommonHTML, or MML)"
-    },
-    ex: {
-      default: 6,
-      describe: "ex-size in pixels"
-    },
-    width: {
-      default: 100,
-      describe: "width of equation container in ex (for line-breaking)"
-    },
-    extensions: {
-      default: "",
-      describe: "extra MathJax extensions e.g. 'Safe,TeX/noUndefined'"
-    },
-    fontURL: {
-      default: "https://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS",
-      describe: "the URL to use for web fonts"
-    }
-  })
-  .argv;
+const argv = require("yargs")
+    .strict()
+    .usage("Usage: mjsre.js [options] 'INPUT'", {
+        speech: {
+            boolean: true,
+            default: true,
+            describe: "include speech text"
+        },
+        speechrules: {
+            default: "mathspeak",
+            describe: "ruleset to use for speech text (chromevox or mathspeak)"
+        },
+        speechstyle: {
+            default: "default",
+            describe: "style to use for speech text (default, brief, sbrief)"
+        },
+        linebreaks: {
+            boolean: true,
+            describe: "perform automatic line-breaking"
+        },
+        format: {
+            default: "TeX",
+            describe: "input format(s) to look for"
+        },
+        font: {
+            default: "TeX",
+            describe: "web font to use"
+        },
+        inline: {
+            boolean: true,
+            describe: "process as in-line TeX"
+        },
+        semantics: {
+            boolean: true,
+            describe: "for TeX or Asciimath source and MathML output, add input in <semantics> tag"
+        },
+        notexhints: {
+            boolean: true,
+            describe: "For TeX input and MathML output, don't add TeX-specific classes"
+        },
+        output: {
+            default: "SVG",
+            describe: "output format (SVG, CommonHTML, or MML)"
+        },
+        ex: {
+            default: 6,
+            describe: "ex-size in pixels"
+        },
+        width: {
+            default: 100,
+            describe: "width of equation container in ex (for line-breaking)"
+        },
+        extensions: {
+            default: "",
+            describe: "extra MathJax extensions e.g. 'Safe,TeX/noUndefined'"
+        },
+        fontURL: {
+            default: "https://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS",
+            describe: "the URL to use for web fonts"
+        },
+        css: {
+            boolean: true,
+            describe: "With CommnoHTML output, output the required CSS rather than the HTML itself"
+        }
+    })
+    .argv;
 
-argv.format = argv.format.split(/ *, */);
-var mjglobal =  {extensions: argv.extensions, fontURL: argv.fontURL};
-var mjlocal = {
-  format: argv.format,
-  svg: (argv.output === 'SVG'),
-  html: (argv.output === 'CommonHTML'),
-  mml: (argv.output === 'MML'),
-  speakText: argv.speech,
-  speakRuleset: argv.speechrules.replace(/^chromevox$/i,"default"),
-  speakStyle: argv.speechstyle,
-  ex: argv.ex,
-  width: argv.width,
-  linebreaks: argv.linebreaks
+if (argv.font === "STIX") argv.font = "STIX-Web";
+if (argv.format === "TeX") argv.format = (argv.inline ? "inline-TeX" : "TeX");
+
+const mjconf = {
+    MathJax: {
+        SVG: {
+            font: argv.font
+        },
+        menuSettings: {
+            semantics: argv.semantics,
+            texHints: !argv.notexhints
+        }
+    },
+    extensions: argv.extensions
 }
 
-//
-//  Read the input file and collect the file contents
-//  When done, process the HTML.
-//
-var html = [];
-process.stdin.on("readable",function (block) {
-  var chunk = process.stdin.read();
-  if (chunk) html.push(chunk.toString('utf8'));
-});
-process.stdin.on("end",function () {
-  mjpage(html.join(""),mjglobal,mjlocal,function(result){
-    process.stdout.write(result);
-  });
-});
+const mjinput = {
+    math: argv._[0],
+    format: argv.format,
+    svg: (argv.output === 'SVG'),
+    html: (argv.output === 'CommonHTML'),
+    css: argv.css,
+    mml: (argv.output === 'MML'),
+    speakText: argv.speech,
+    speakRuleset: argv.speechrules.replace(/^chromevox$/i, "default"),
+    speakStyle: argv.speechstyle,
+    ex: argv.ex,
+    width: argv.width,
+    linebreaks: argv.linebreaks
+}
+
+const output = function(result) {
+    if (result.errors) console.log(result.errors);
+    else if (argv.css) console.log(result.css);
+    else console.log(result[argv.output.toLowerCase()]);
+}
+
+mj.config(mjconf);
+mj.start();
+mj.typeset(mjinput, output)
