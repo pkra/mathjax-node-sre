@@ -3,7 +3,7 @@ var mjAPI = require('../lib/main.js');
 var jsdom = require('jsdom').jsdom;
 
 tape('Speech should replace alttext from source', function(t) {
-  t.plan(6);
+  t.plan(8);
 
   mjAPI.start();
   var mml = '<math alttext="0"><mn>1</mn></math>';
@@ -35,6 +35,12 @@ tape('Speech should replace alttext from source', function(t) {
 
     var labelledby = window.document.querySelector('[aria-labelledby]');
     t.ok(labelledby, 'svg output has the correct aria-labelledby');
+
+    var labelledbyID = labelledby.getAttribute('aria-labelledby');
+    t.ok(labelledbyID, 'svg output aria-labelledby ID exists');
+
+    var target = window.document.querySelector('#'+labelledbyID);
+    t.equal(target.textContent, '1', 'svg output aria-labelledby target exists');
 
     // test mml output
     var count = data.mml.match(/alttext/g).length;
