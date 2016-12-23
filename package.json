@@ -1,6 +1,6 @@
 {
   "name": "mathjax-node-sre",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Extend mathjax-node using speechruleengine",
   "main": "./lib/main.js",
   "scripts": {
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/mathjax/mathjax-node-page#readme",
   "dependencies": {
-    "mathjax-node": "mathjax/mathjax-node#issue207",
+    "mathjax-node": "mathjax/mathjax-node#develop",
     "speech-rule-engine": "*",
     "yargs": "*"
   },
