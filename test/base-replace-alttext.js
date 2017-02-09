@@ -3,7 +3,7 @@ var mjAPI = require('../lib/main.js');
 var jsdom = require('jsdom').jsdom;
 
 tape('Speech should replace alttext from source', function(t) {
-  t.plan(8);
+  t.plan(7);
 
   mjAPI.start();
   var mml = '<math alttext="0"><mn>1</mn></math>';
@@ -19,27 +19,20 @@ tape('Speech should replace alttext from source', function(t) {
     htmlNode: true
   }, function(data) {
     // test html output
-    var document = jsdom(data.html);
-    var window = document.defaultView;
-    var labels = window.document.querySelectorAll('[aria-label]');
+    var labels = data.htmlNode.querySelectorAll('[aria-label]');
     t.notOk(labels[1], 'html output has only one aria-label');
 
     var checkLabel = (labels[0].getAttribute('aria-label') === '1');
     t.ok(checkLabel, 'html output has the correct aria-label');
 
     // test svg output
-    var document = jsdom(data.svg);
-    var window = document.defaultView;
-    var labeled = window.document.querySelector('[aria-label]');
+    var labeled = data.svgNode.querySelector('[aria-label]');
     t.notOk(labeled, 'svg output has no aria-label');
 
-    var labelledby = window.document.querySelector('[aria-labelledby]');
-    t.ok(labelledby, 'svg output has the correct aria-labelledby');
-
-    var labelledbyID = labelledby.getAttribute('aria-labelledby');
+    var labelledbyID = data.svgNode.getAttribute('aria-labelledby');
     t.ok(labelledbyID, 'svg output aria-labelledby ID exists');
 
-    var target = window.document.querySelector('#'+labelledbyID);
+    var target = data.svgNode.querySelector('#'+labelledbyID);
     t.equal(target.textContent, '1', 'svg output aria-labelledby target exists');
 
     // test mml output
