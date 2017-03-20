@@ -1,6 +1,6 @@
 {
   "name": "mathjax-node-sre",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Extend mathjax-node using speechruleengine",
   "main": "./lib/main.js",
   "scripts": {
@@ -9,24 +9,25 @@
   "bin" : { "mjsre" : "./bin/mjsre.js" },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mathjax/mathjax-node-page.git"
+    "url": "git+https://github.com/pkra/mathjax-node-sre.git"
   },
   "keywords": [
     "mathjax",
     "math",
     "tex",
     "mathml",
-    "png",
-    "html"
+    "html",
+    "accessibility",
+    "screenreader"
   ],
   "author": "MathJax Consortium",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/mathjax/mathjax-node-page/issues"
+    "url": "https://github.com/pkra/mathjax-node-sre/issues"
   },
-  "homepage": "https://github.com/mathjax/mathjax-node-page#readme",
+  "homepage": "https://github.com/pkra/mathjax-node-sre#readme",
   "dependencies": {
-    "mathjax-node": ">=1.0.0-beta.0",
+    "mathjax-node": "^1.0.0",
     "speech-rule-engine": "*",
     "yargs": "*"
   },
