@@ -1,4 +1,4 @@
-# mathjax-node-sre
+# mathjax-node-sre [![Build Status](https://travis-ci.org/pkra/mathjax-node-sre.svg?branch=master)](https://travis-ci.org/pkra/mathjax-node-sre)
 
 This module extends [mathjax-node](https://github.com/mathjax/MathJax-node) using [speech-rule-engine](https://github.com/zorkow/speech-rule-engine).
 
