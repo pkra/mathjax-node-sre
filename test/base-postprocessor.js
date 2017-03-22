@@ -5,8 +5,8 @@ const mj = require('mathjax-node').typeset;
 tape('Base check: postprocessor', function(t) {
   t.plan(1);
   var input = 'x';
-  mj({math: input, format: "TeX", mml: true, svgNode: true},function(result){
-    postprocessor({speakText: true}, result, function(output){
+  mj({math: input, format: "TeX", mml: true, svgNode: true},function(result, input){
+    postprocessor({speakText: true}, result, input, function(output){
       t.ok(result.speakText, 'basic test');
     })
   });
