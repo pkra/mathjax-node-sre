@@ -1,5 +1,7 @@
 # mathjax-node-sre [![Build Status](https://travis-ci.org/pkra/mathjax-node-sre.svg?branch=master)](https://travis-ci.org/pkra/mathjax-node-sre)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/pkra/mathjax-node-sre.svg)](https://greenkeeper.io/)
+
 This module extends [mathjax-node](https://github.com/mathjax/MathJax-node) using [speech-rule-engine](https://github.com/zorkow/speech-rule-engine).
 
 It can be used as a drop-in replacement for mathjax-node.
