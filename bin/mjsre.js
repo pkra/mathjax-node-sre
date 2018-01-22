@@ -22,7 +22,8 @@ const jsdom = require('jsdom').jsdom;
 
 const argv = require("yargs")
     .strict()
-    .usage("Usage: mjsre.js [options] 'INPUT'", {
+    .usage("$0 [options] 'INPUT'")
+    .options({
         speech: {
             boolean: true,
             default: true,
