@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/pkra/mathjax-node-sre#readme",
   "dependencies": {
-    "mathjax-node": "~1",
+    "mathjax-node": "~2.0.0",
     "speech-rule-engine": "~2",
     "yargs": "*"
   },
