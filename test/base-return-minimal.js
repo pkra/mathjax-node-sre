@@ -1,6 +1,5 @@
 var tape = require('tape');
 var mjAPI = require('../lib/main.js');
-var jsdom = require('jsdom').jsdom;
 
 tape('Base: result should return minimal object', function(t) {
   t.plan(5);

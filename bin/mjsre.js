@@ -18,7 +18,6 @@
 
 const mj = require('../lib/main.js');
 const fs = require('fs');
-const jsdom = require('jsdom').jsdom;
 
 const argv = require("yargs")
     .strict()
