@@ -5,7 +5,6 @@ tape('SVG output: xlink:href namespace prefix', function(t) {
   t.plan(1);
   var input = 'x';
   mjsre({math: input, format: "TeX", svg: true},function(result){
-    console.log(result.svg)
       t.ok(result.svg.indexOf('xlink:href') > -1, 'SVG href has xlink prefix');
   });
 });
