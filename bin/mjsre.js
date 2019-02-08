@@ -63,7 +63,8 @@ const argv = require("yargs")
         },
         output: {
             default: "SVG",
-            describe: "output format (SVG, CommonHTML, or MML)"
+            describe: "output format (SVG, CommonHTML, or MML)",
+            coerce: (x => {return x.toLowerCase();})
         },
         ex: {
             default: 6,
@@ -102,15 +103,23 @@ const mjconf = {
         }
     },
     extensions: argv.extensions
-}
+};
+
+const outputFormats = {
+  'commonhtml': 'html',
+  'mathml': 'mml',
+  'chtml': 'html'
+};
+
+argv.output = outputFormats[argv.output] || argv.output;
 
 const mjinput = {
     math: argv._[0],
     format: argv.format,
-    svg: (argv.output === 'SVG'),
-    html: (argv.output === 'CommonHTML'),
+    svg: (argv.output === 'svg'),
+    html: (argv.output === 'html'),
     css: argv.css,
-    mml: (argv.output === 'MML'),
+    mml: (argv.output === 'mml'),
     speakText: argv.speech,
     speakRuleset: argv.speechrules.replace(/^chromevox$/i, "default"),
     speakStyle: argv.speechstyle,
