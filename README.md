@@ -29,6 +29,7 @@ speakStyle: "default",          // set speech style for mathspeak rules:  defaul
 semantic: false,                // adds semantic tree information to output
 minSTree: false,                // if true the semantic tree is minified
 enrich: false                   // replace the math input with MathML resulting from SRE enrichment
+speech: 'deep'                  // sets depth of speech; 'shallow' or 'deep'
 ```
 
 ## post-processor

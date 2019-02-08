@@ -16,7 +16,7 @@ tape('Base check: preprocessor', function(t) {
   });
   preprocessor(data, function(output){
     t.equal(output.format, 'MathML', 'Format correct');
-    t.notOk(output.speakText, 'pre-processing disables SpeakText')
+    t.equal(typeof output.speakText, 'string', 'pre-processing sets SpeakText string')
     t.ok(output.math.indexOf('data-semantic-role') > -1, 'MathML is enriched')
   })
 });

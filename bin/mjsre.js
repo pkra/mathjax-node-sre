@@ -18,7 +18,6 @@
 
 const mj = require('../lib/main.js');
 const fs = require('fs');
-const jsdom = require('jsdom').jsdom;
 
 const argv = require("yargs")
     .strict()
@@ -128,6 +127,7 @@ const mjinput = {
     linebreaks: argv.linebreaks
 }
 
+console.log(argv._[0])
 const output = function(result) {
     if (result.errors) console.log(result.errors);
     else if (argv.css) console.log(result.css);
