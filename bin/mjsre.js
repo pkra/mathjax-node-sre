@@ -118,10 +118,11 @@ const mjinput = {
     linebreaks: argv.linebreaks
 }
 
+console.log(argv._[0])
 const output = function(result) {
     if (result.errors) console.log(result.errors);
     else if (argv.css) console.log(result.css);
-    else console.log(result[argv.output.toLowerCase()]);
+    else console.log(result.mml || result.html || result.svg);
 }
 
 mj.config(mjconf);
