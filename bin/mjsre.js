@@ -25,7 +25,7 @@ const argv = require("yargs")
     .options({
         speech: {
             boolean: true,
-            default: mj.options.speak,
+            default: mj.options.speakText,
             describe: "include speech text"
         },
         sre: {
@@ -93,6 +93,14 @@ const argv = require("yargs")
     })
     .argv;
 
+const formats = {
+  'commonhtml': 'html',
+  'mathml': 'mml',
+  'chtml': 'html'
+};
+
+argv.output = formats[argv.output] || argv.output;
+
 if (argv.font === "STIX") argv.font = "STIX-Web";
 if (argv.format === "TeX") argv.format = (argv.inline ? "inline-TeX" : "TeX");
 
@@ -108,14 +116,6 @@ const mjconf = {
     },
     extensions: argv.extensions
 };
-
-const outputFormats = {
-  'commonhtml': 'html',
-  'mathml': 'mml',
-  'chtml': 'html'
-};
-
-argv.output = outputFormats[argv.output] || argv.output;
 
 const mjinput = {
     math: argv._[0],
