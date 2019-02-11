@@ -33,14 +33,6 @@ const argv = require("yargs")
             nargs: 2,
             describe: "SRE flags as key value pairs"
         },
-        speechrules: { // deprecated
-            default: mj.options.speakRules,
-            describe: "ruleset to use for speech text (chromevox or mathspeak)"
-        },
-        speechstyle: { // deprecated
-            default: mj.options.speakStyle,
-            describe: "style to use for speech text (default, brief, sbrief)"
-        },
         linebreaks: {
             boolean: true,
             describe: "perform automatic line-breaking"
@@ -120,20 +112,16 @@ const mjconf = {
 const mjinput = {
     math: argv._[0],
     format: argv.format,
-    svg: (argv.output === 'svg'),
-    html: (argv.output === 'html'),
     css: argv.css,
-    mml: (argv.output === 'mml'),
     speakText: argv.speech,
-    speakRuleset: argv.speechrules.replace(/^chromevox$/i, "default"),
-    speakStyle: argv.speechstyle,
     ex: argv.ex,
     width: argv.width,
     linebreaks: argv.linebreaks,
     sre: argv.sre
 };
 
-console.log(argv._[0])
+mjinput[argv.output] = true;
+
 const output = function(result) {
     if (result.errors) console.log(result.errors);
     else if (argv.css) console.log(result.css);
