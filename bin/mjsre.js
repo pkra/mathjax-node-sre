@@ -25,15 +25,20 @@ const argv = require("yargs")
     .options({
         speech: {
             boolean: true,
-            default: true,
+            default: mj.options.speak,
             describe: "include speech text"
         },
-        speechrules: {
-            default: "mathspeak",
+        sre: {
+            array: true,
+            nargs: 2,
+            describe: "SRE flags as key value pairs"
+        },
+        speechrules: { // deprecated
+            default: mj.options.speakRules,
             describe: "ruleset to use for speech text (chromevox or mathspeak)"
         },
-        speechstyle: {
-            default: "default",
+        speechstyle: { // deprecated
+            default: mj.options.speakStyle,
             describe: "style to use for speech text (default, brief, sbrief)"
         },
         linebreaks: {
@@ -41,11 +46,11 @@ const argv = require("yargs")
             describe: "perform automatic line-breaking"
         },
         format: {
-            default: "TeX",
+            default: mj.options.format,
             describe: "input format(s) to look for"
         },
         font: {
-            default: "TeX",
+            default: mj.options.font,
             describe: "web font to use"
         },
         inline: {
@@ -61,24 +66,24 @@ const argv = require("yargs")
             describe: "For TeX input and MathML output, don't add TeX-specific classes"
         },
         output: {
-            default: "SVG",
+            default: mj.options.output,
             describe: "output format (SVG, CommonHTML, or MML)",
             coerce: (x => {return x.toLowerCase();})
         },
         ex: {
-            default: 6,
+            default: mj.options.ex,
             describe: "ex-size in pixels"
         },
         width: {
-            default: 100,
+            default: mj.options.width,
             describe: "width of equation container in ex (for line-breaking)"
         },
         extensions: {
-            default: "",
+            default: mj.options.extensions,
             describe: "extra MathJax extensions e.g. 'Safe,TeX/noUndefined'"
         },
         fontURL: {
-            default: "https://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS",
+            default: mj.options.fontURL,
             describe: "the URL to use for web fonts"
         },
         css: {
@@ -124,16 +129,17 @@ const mjinput = {
     speakStyle: argv.speechstyle,
     ex: argv.ex,
     width: argv.width,
-    linebreaks: argv.linebreaks
-}
+    linebreaks: argv.linebreaks,
+    sre: argv.sre
+};
 
 console.log(argv._[0])
 const output = function(result) {
     if (result.errors) console.log(result.errors);
     else if (argv.css) console.log(result.css);
     else console.log(result[argv.output]);
-}
+};
 
 mj.config(mjconf);
 mj.start();
-mj.typeset(mjinput, output)
+mj.typeset(mjinput, output);
