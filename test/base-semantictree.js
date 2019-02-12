@@ -8,10 +8,10 @@ tape('Base check: speech-rule-engine semanticTree', function(t) {
     math: tex,
     format: "TeX",
     mml: true,
-    speakText: true,
-    semantic: true
+    stree: true,
+    json: true
   }, function(data) {
-    t.ok(data.streeJson, 'semantic tree JSON');
-    t.ok(data.streeXml, 'semantic tree XML');
+    t.ok(data.json, 'semantic tree JSON');
+    t.ok(data.stree, 'semantic tree XML');
   });
 });
