@@ -31,7 +31,7 @@
   "dependencies": {
     "mathjax-node": "~2",
     "speech-rule-engine": "3.0.0-beta.8",
-    "yargs": "~15.0.1"
+    "yargs": "~15.2.0"
   },
   "devDependencies": {
     "tape": "^4.5.1"
